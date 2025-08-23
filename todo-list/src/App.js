@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import TodoList from './TodoList';
+import TodoForm from './TodoForm';
 
 function App() {
 
@@ -21,11 +22,24 @@ function App() {
     setTodos(newTodos);
   }
 
+  const addTodo = (text)=>{
+    const newTodo ={
+      id: Date.now(),
+      text: text,
+      completed: false
+    };
+
+    setTodos([...todos, newTodo]);
+  }
+
+
   const remainingTodos = todos.filter(todo => !todo.completed).length;
 
   return (
     <div className='App'>
       <h1>මගේ වැඩ ලැයිස්තුව (My Todo List)</h1>
+
+      <TodoForm onAddTodo={addTodo}/>
 
       {remainingTodos === 0 ? (
         <h2>සුපිරි! ඔයාගෙ වැඩ ඔක්කොම ඉවරයි. 😀</h2>
