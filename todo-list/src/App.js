@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TodoList from './TodoList';
 import TodoForm from './TodoForm';
 
@@ -12,6 +12,16 @@ function App() {
     { id: 3, text: 'ගෙදර වැඩ කරන්න', completed: true }
   ]);
 
+  useEffect(() => {
+    const inCompletedTodos = todos.filter(todo => !todo.completed).length;
+
+    if (inCompletedTodos > 0) {
+      document.title = `ඔයාට තව වැඩ ${inCompletedTodos}ක් ඉතුරුයි.`;
+    } else {
+      document.titile = 'සුපිරි! ඔයාගෙ වැඩ ඔක්කොම ඉවරයි. 😀';
+    }
+  }, [todos]);
+
   const toggleTodo = (id) => {
     const newTodos = todos.map(todo => {
       if (todo.id == id) {
@@ -22,8 +32,8 @@ function App() {
     setTodos(newTodos);
   }
 
-  const addTodo = (text)=>{
-    const newTodo ={
+  const addTodo = (text) => {
+    const newTodo = {
       id: Date.now(),
       text: text,
       completed: false
@@ -39,7 +49,7 @@ function App() {
     <div className='App'>
       <h1>මගේ වැඩ ලැයිස්තුව (My Todo List)</h1>
 
-      <TodoForm onAddTodo={addTodo}/>
+      <TodoForm onAddTodo={addTodo} />
 
       {remainingTodos === 0 ? (
         <h2>සුපිරි! ඔයාගෙ වැඩ ඔක්කොම ඉවරයි. 😀</h2>
